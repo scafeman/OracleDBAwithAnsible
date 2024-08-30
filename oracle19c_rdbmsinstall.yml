@@ -1,4 +1,4 @@
-- hosts: dbservers
+- hosts: all
   user: root
   
   roles:
