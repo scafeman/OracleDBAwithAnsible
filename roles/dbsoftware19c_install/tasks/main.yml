@@ -104,7 +104,7 @@
   when: inventory_hostname in groups['all']
   copy: src=roles/dbsoftware19c_install/files/{{ item }} dest={{ stage_dir }} mode=0755 owner="{{ oracle_user }}" group="{{ oracle_install_group }}"
   with_items:
-     - oracle-database-preinstall-19c-1.0-1.el7.src.rpm
+     - oracle-database-preinstall-19c-1.0-1.el9.x86_64
   tags:
    - db19c_preinstpkg
 
