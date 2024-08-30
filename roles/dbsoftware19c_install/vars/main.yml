@@ -9,5 +9,5 @@ oracle_inventory:                /u01/app/oraInventory
 oracle_user:                     oracle
 root_user:                       root
 oradbsoft_rsp:                   "19cEE_SoftOnly"    
-preinstall_pkg:                  "oracle-database-preinstall-19c-1.0-1.el7.src.rpm"
+preinstall_pkg:                  "oracle-database-preinstall-19c-1.0-1.el9.x86_64"
 oracle19c_url:                   "https://127.0.0.1/path/to/file.zip"
