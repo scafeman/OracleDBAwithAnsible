@@ -82,7 +82,7 @@
   when: limits.stdout | int < 10240 or limits.stdout | int > 32768 
 
 - name: create required directories
-  when: inventory_hostname in groups['dbservers']
+  when: inventory_hostname in groups['all']
   remote_user: "{{ root_user }}"
   file:
     path="{{ item }}"
@@ -101,7 +101,7 @@
    - db19c_createinventory
 
 - name: Copy preinstall-19c package to target database server
-  when: inventory_hostname in groups['dbservers']
+  when: inventory_hostname in groups['all']
   copy: src=roles/dbsoftware19c_install/files/{{ item }} dest={{ stage_dir }} mode=0755 owner="{{ oracle_user }}" group="{{ oracle_install_group }}"
   with_items:
      - oracle-database-preinstall-19c-1.0-1.el7.src.rpm
@@ -109,7 +109,7 @@
    - db19c_preinstpkg
 
 - name: Execute rpm package 
-  when: inventory_hostname in groups['dbservers']
+  when: inventory_hostname in groups['all']
   remote_user: "{{ root_user }}"
   become: yes
   command: rpm -U "/{{ stage_dir }}/{{ preinstall_pkg }}"
@@ -128,7 +128,7 @@
     - download_oracle19c
 
 - name: Unpack Oracle 19c Database Software to the target server
-  when: inventory_hostname in groups['dbservers']
+  when: inventory_hostname in groups['all']
   remote_user: "{{ root_user }}"
   become: yes
   become_user: "{{ oracle_user }}"
@@ -143,7 +143,7 @@
    - db19c_unpackdbsoftware
 
 - name: Setup Oracle 19c Database Software silent response file
-  when: inventory_hostname in groups['dbservers']
+  when: inventory_hostname in groups['all']
   remote_user: "{{ root_user }}"
   become: yes
   become_user: "{{ oracle_user }}"
@@ -152,7 +152,7 @@
    - db19c_setuprspfile
 
 - name: Install Oracle 19c Database Software
-  when: inventory_hostname in groups['dbservers']
+  when: inventory_hostname in groups['all']
   remote_user: "{{ root_user }}"
   become: yes
   become_user: "{{ oracle_user }}"
@@ -162,7 +162,7 @@
    - dbsoft19c_install
 
 - name: Execute orainstroot.sh
-  when: inventory_hostname in groups['dbservers'] 
+  when: inventory_hostname in groups['all'] 
   remote_user: "{{ root_user }}"
   shell: "{{ oracle_inventory }}/orainstRoot.sh" 
   ignore_errors: True
@@ -170,14 +170,14 @@
    - db19c_exeorainstroot
 
 - name: Execute root.sh
-  when: inventory_hostname in groups['dbservers']
+  when: inventory_hostname in groups['all']
   remote_user: "{{ root_user }}"
   shell: "{{ oracle_home }}/root.sh -silent"
   tags:
    - db19c_exeroot
 
 - name: Remove stage directory 
-  when: inventory_hostname in groups['dbservers']
+  when: inventory_hostname in groups['all']
   file: path={{ stage_dir }} state=absent
 
 - name: display post install message
